@@ -1,36 +1,55 @@
-/* From Uiverse.io by satyamchaudharydev */ 
+/* PlantIdentifier.css */
 .loader {
-    display: block;
-    --height-of-loader: 4px;
-    --loader-color: #73d214;
-    width: 180px;
-    height: var(--height-of-loader);
-    border-radius: 30px;
-    background-color: rgba(0,0,0,0.4);
-    position: relative;
+  display: block;
+  --height-of-loader: 4px;
+  --loader-color: #73d214;
+  width: 80%; /* Use percentage for responsiveness */
+  max-width: 500px; /* Set a maximum width */
+  height: var(--height-of-loader);
+  border-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: relative;
+  margin: 0 auto; /* Center the loader */
+}
+
+.loader::before {
+  content: "";
+  position: absolute;
+  background: var(--loader-color);
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  border-radius: 30px;
+  animation: moving 1s ease-in-out infinite;
+}
+
+@keyframes moving {
+  50% {
+    width: 100%;
   }
-  
-  .loader::before {
-    content: "";
-    position: absolute;
-    background: var(--loader-color);
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 100%;
-    border-radius: 30px;
-    animation: moving 1s ease-in-out infinite;
-    ;
+
+  100% {
+    width: 0;
+    right: 0;
+    left: unset;
   }
-  
-  @keyframes moving {
-    50% {
-      width: 100%;
-    }
-  
-    100% {
-      width: 0;
-      right: 0;
-      left: unset;
-    }
+}
+
+@media (min-width: 640px) {
+  .loader {
+    width: 70%;
   }
+}
+
+@media (min-width: 768px) {
+  .loader {
+    width: 60%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .loader {
+    width: 50%;
+  }
+}

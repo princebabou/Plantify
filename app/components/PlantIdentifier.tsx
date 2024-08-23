@@ -87,7 +87,7 @@ export default function PlantIdentifier({ image }: PlantIdentifierProps) {
                   alt="Uploaded plant"
                   width={300}
                   height={300}
-                  className="h-48 w-full object-cover md:h-full "
+                  className="h-48 object-cover md:h-full "
                 />
               )}
             </div>
@@ -112,7 +112,7 @@ function InfoSection({ title, content }: { title: string; content: string }) {
   return (
     <div>
       <h2 className="text-lg font-semibold text-green-600">{title}</h2>
-      <p className="text-gray-700">{content}</p>
+      <p className="text-gray-600">{content}</p>
     </div>
   );
 }
