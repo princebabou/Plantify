@@ -56,7 +56,7 @@ export default function Home() {
           className="text-2xl font-bold text-white cursor-pointer"
           onClick={() => window.location.reload()}
         >
-          Plant<span className="text-green-900">ify</span>
+          Planti<span className="text-green-900">ify</span>
         </h1>
       </div>
 
