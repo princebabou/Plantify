@@ -13,6 +13,7 @@
     "@google/generative-ai": "^0.17.0",
     "@heroicons/react": "^1.0.6",
     "google-vision-api": "^1.0.0",
+    "lucide-react": "^0.447.0",
     "next": "14.2.5",
     "node-fetch": "^3.3.2",
     "react": "^18",
