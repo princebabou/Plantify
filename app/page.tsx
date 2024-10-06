@@ -1,103 +1,74 @@
-"use client";
+import Link from 'next/link'
+import { ArrowRightIcon, LeafIcon, SearchIcon, SunIcon } from 'lucide-react'
 
-import { useState, useRef } from "react";
-import PlantIdentifier from "./components/PlantIdentifier";
-import { CameraIcon, PhotographIcon } from "@heroicons/react/outline";
-import FeatureCards from "./components/FeatureCards";
-
-export default function Home() {
-  const [image, setImage] = useState<File | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImage(e.target.files[0]);
-    }
-  };
-
-  const handleCaptureClick = async () => {
-    if (!videoRef.current || !canvasRef.current) return;
-
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    videoRef.current.srcObject = stream;
-    videoRef.current.play();
-
-    setTimeout(() => {
-      if (!videoRef.current || !canvasRef.current) return;
-      const context = canvasRef.current.getContext("2d");
-      if (!context) return;
-
-      context.drawImage(
-        videoRef.current,
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-      videoRef.current.pause();
-      stream.getTracks().forEach((track) => track.stop());
-
-      canvasRef.current.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], "captured-image.png", {
-            type: "image/png",
-          });
-          setImage(file);
-        }
-      });
-    }, 1000); 
-  };
-
+export default function LandingPage() {
   return (
-    <main className="relative min-h-screen flex flex-col items-center justify-center p-24 bg-gradient-to-r from-green-400 to-green-500">
-      <div className="absolute top-6 left-6">
-        <h1
-          className="text-2xl font-bold text-white cursor-pointer"
-          onClick={() => window.location.reload()}
-        >
-          Planti<span className="text-green-900">ify</span>
-        </h1>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100">
+      <header className="container mx-auto px-4 py-8">
+        <nav className="flex justify-between items-center">
+          <h1 className="text-4xl font-bold text-green-800">
+            Planti<span className="text-green-600">ify</span>
+          </h1>
+          <Link
+            href="/identify"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-full transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg"
+          >
+            Get Started
+          </Link>
+        </nav>
+      </header>
 
-      <div className="flex flex-col items-center">
-        <h1 className="text-4xl font-bold mb-8 text-white"></h1>
-        <div className="bg-white- p-8 rounded-lg shadow-2xl text-white text-center">
-          <div className="flex justify-center space-x-4">
-            <div className="flex flex-col items-center bg-green-600 p-6 rounded-md shadow-md">
-              <PhotographIcon className="h-10 w-10 mb-2" />
-              <label
-                htmlFor="file-upload"
-                className="cursor-pointer text-white font-bold py-2 px-4 rounded-md text-center block mb-4"
-              >
-                Upload an Image
-              </label>
-              <input
-                id="file-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-            </div>
-
-            <div className="flex flex-col items-center bg-green-600 p-6 rounded-md shadow-md">
-              <CameraIcon className="h-10 w-10 mb-2" />
-              <button
-                onClick={handleCaptureClick}
-                className="cursor-pointer text-white font-bold py-2 px-4 rounded-md text-center block mb-4"
-              >
-                Capture an Image
-              </button>
-            </div>
-          </div>
-          {image && <PlantIdentifier image={image} />}
+      <main className="container mx-auto px-4 py-16">
+        <div className="text-center mb-24">
+          <h2 className="text-6xl font-bold text-green-800 mb-8 leading-tight">
+            Discover the <span className="text-green-600">World of Plants</span>
+          </h2>
+          <p className="text-xl text-green-700 mb-12 max-w-2xl mx-auto">
+            Identify, learn, and connect with nature using AI-powered plant recognition
+          </p>
+          <Link
+            href="/identify"
+            className="inline-flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-4 px-10 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl"
+          >
+            Start Identifying
+            <ArrowRightIcon className="ml-3 h-6 w-6" />
+          </Link>
         </div>
-      </div>
 
-      <video ref={videoRef} className="hidden" />
-      <canvas ref={canvasRef} width={640} height={480} className="hidden" />
-      <FeatureCards />
-    </main>
-  );
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+          <FeatureCard
+            icon={<LeafIcon className="h-16 w-16 text-green-500" />}
+            title="Instant Plant Identification"
+            description="Upload a photo or take a picture to instantly identify plants, flowers, and trees."
+          />
+          <FeatureCard
+            icon={<SearchIcon className="h-16 w-16 text-green-500" />}
+            title="Detailed Information"
+            description="Get comprehensive details about each plant, including scientific names, care instructions, and fun facts."
+          />
+          <FeatureCard
+            icon={<SunIcon className="h-16 w-16 text-green-500" />}
+            title="Care Guidance"
+            description="Learn how to properly care for your plants with tailored advice and tips."
+          />
+        </div>
+      </main>
+    </div>
+  )
+}
+
+interface FeatureCardProps {
+  icon: JSX.Element;
+  title: string;
+  description: string;
+}
+
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
+  return (
+    <div className="bg-white rounded-2xl shadow-lg p-10 transition duration-300 ease-in-out transform hover:scale-105 hover:shadow-xl">
+      <div className="flex justify-center mb-8">{icon}</div>
+      <h3 className="text-2xl font-semibold text-green-800 mb-4 text-center">{title}</h3>
+      <p className="text-green-600 text-center">{description}</p>
+    </div>
+  )
 }
